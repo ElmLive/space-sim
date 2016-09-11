@@ -7,6 +7,7 @@ module Sim.SinglePlanet
         , subscriptions
         )
 
+import Chart
 import Html exposing (Html)
 import Planet exposing (Planet)
 import Time exposing (Time)
@@ -43,7 +44,22 @@ update msg model =
 
 view : Model -> Html Msg
 view model =
-    Html.text <| toString model
+    Html.div []
+        [ Html.text <| toString model.planet
+        , Chart.pie
+            [ model.planet.resources
+            , model.planet.food
+            , model.planet.population
+            , 1000 * model.planet.technology
+            ]
+            [ "Resources"
+            , "Food"
+            , "Population"
+            , "Technology"
+            ]
+            |> Chart.title (model.planet.name ++ " (Year " ++ toString model.planet.age ++ ")")
+            |> Chart.toHtml
+        ]
 
 
 
@@ -52,4 +68,4 @@ view model =
 
 subscriptions : Model -> Sub Msg
 subscriptions model =
-    Time.every (0.2 * Time.second) Tick
+    Time.every (0.05 * Time.second) Tick
