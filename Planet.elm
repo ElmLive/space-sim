@@ -1,4 +1,4 @@
-module Planet exposing (..)
+module Planet exposing (Planet, testPlanet, step)
 
 
 type alias Planet =
